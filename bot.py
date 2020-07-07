@@ -40,6 +40,6 @@ async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'
 @rep.error
 async def rep_error(ctx, error):
     if isinstance(error, commands.MissingRole):
-        await ctx.send('Lmao, only the dictator can use this role, scrub.')
+        await ctx.send('Lmao, only the dictator can use this command, scrub.')
 
 client.run(config.token)
