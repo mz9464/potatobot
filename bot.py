@@ -22,12 +22,24 @@ async def on_member_remove(member):
     channel = client.get_channel(id=701270246496927797)
     await channel.send(f'{member}, begone thot.')
 
-
 @client.command(aliases=['read'])
 async def readme(ctx):
     responses = ['This bot was created to help run the dictatorship',
                  'Hail the Potato Lord',
                  'idk what you expected as a response']
     await ctx.send(f'{random.choice(responses)}')
+
+@client.command()
+@commands.has_role('server god')
+async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'):
+    channel = client.get_channel(id=729546471757840454)
+    if (number >= 0):
+        await channel.send(f'{member} gains {number} rep because {reason}.')
+    else:
+        await channel.send(f'{member} loses {number} rep because {reason}.')
+@rep.error
+async def rep_error(ctx, error):
+    if isinstance(error, commands.MissingRole):
+        await ctx.send('Lmao, only the dictator can use this role, scrub.')
 
 client.run(config.token)
