@@ -1,7 +1,7 @@
 """
 file: person.py
 author: Misty Zheng
-description: holds the person class
+description: holds the person class and helper functions
 """
 
 class Person:
@@ -9,3 +9,6 @@ class Person:
     def __init__(self, name, rep=0):
         self.name = name
         self.rep = rep
+
+    def get_name(self):
+        return self.name
