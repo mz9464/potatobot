@@ -6,6 +6,7 @@ description: bot to keep track of members' reputation in a Discord Server
 
 import discord
 #import random
+import person
 from discord.ext import commands
 import config
 
