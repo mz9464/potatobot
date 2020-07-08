@@ -5,7 +5,7 @@ description: holds the person class
 """
 
 class Person:
-    """ Person class that contains a user id and reputation """
-    def __init__(self, id, rep = 0):
-        self.id = id
+    """ Person class that contains a user name and reputation """
+    def __init__(self, name, rep=0):
+        self.name = name
         self.rep = rep
