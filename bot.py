@@ -50,7 +50,7 @@ async def on_member_remove(member):
     #await client.send_message(f'{member}, begone thot.')
     channel = client.get_channel(id=701270246496927797)
     await channel.send(f'{member}, begone thot.')
-    people.pop(member)
+    people.remove(member)
 
 """
 @client.command(aliases=['read'])
@@ -67,12 +67,9 @@ async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'
     channel = client.get_channel(id=729546471757840454)
     if (number >= 0):
         print(people.__len__())
-        for x in people: #not iterating through list
-            print(person.get_name(), member)
-            if member == x.get_name():
-                print("match")
-            else:
-                print("nothing")
+        people.index(member)
+        people.
+
         await channel.send(f'{member} gains {number} rep because {reason}.')
     else:
         await channel.send(f'{member} loses {number} rep because {reason}.')
