@@ -5,7 +5,6 @@ description: bot to keep track of members' reputation in a Discord Server
 """
 
 import discord
-#import random
 import person
 from discord.ext import commands
 import config
@@ -21,10 +20,9 @@ async def on_ready():
     global people
     people = []
     print('Hello, world.')
-    x = client.get_all_members()
+    x = list(client.get_all_members())
     for members in x:
-        #print(members)
-        people.append(members)
+        people.append(person.Person(str(members.name), str(members.id), 0))
 
 """
 Sends a welcome message to the server when a member joins and 
@@ -34,10 +32,10 @@ adds them to the list of members
 @client.event
 async def on_member_join(member):
     print(f'Welcome {member}, the Potato Lord does not hate you.')
-    #await client.send(f'Welcome {member}, the Potato Lord does not hate you.')
     channel = client.get_channel(id=701270246496927797)
-    await channel.send(f'Welcome {member}, the Potato Lord does not hate you.')
-    people.append(member)
+    await channel.send(f'Welcome {member.display_name}, the Potato Lord does not hate you.')
+    people.append(person.Person(str(member.name), str(member.id), 0))
+    print(member.display_name, " has been added")
 
 """
 Sends a goodbye message to the server when a member leaves and 
@@ -47,10 +45,9 @@ removes them from the list of members
 @client.event
 async def on_member_remove(member):
     print(f'{member}, begone thot.')
-    #await client.send_message(f'{member}, begone thot.')
     channel = client.get_channel(id=701270246496927797)
-    await channel.send(f'{member}, begone thot.')
-    people.remove(member)
+    await channel.send(f'{member.display_name}, begone thot.')
+    #people.remove(member) TODO probably need to change this
 
 """
 @client.command(aliases=['read'])
@@ -68,7 +65,7 @@ async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'
     if (number >= 0):
         print(people.__len__())
         people.index(member)
-        people.
+        #people.
 
         await channel.send(f'{member} gains {number} rep because {reason}.')
     else:

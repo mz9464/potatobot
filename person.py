@@ -6,7 +6,7 @@ description: holds the person class and helper functions
 
 class Person:
     """ Person class that contains a user name, id, and reputation """
-    def __init__(self, name, rep=0):
+    def __init__(self, name, id, rep=0):
         self.name = name
         self.id = id
         self.rep = rep
