@@ -65,10 +65,15 @@ async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'
     if (number >= 0):
         print(people.__len__())
         people.index(member)
-        #people.
-
-        await channel.send(f'{member} gains {number} rep because {reason}.')
+        for person in people: #need to fix TODO
+            if person.id == member.id:
+                person += person.change_rep(number)
+                await channel.send(f'{member} gains {number} rep because {reason}.')
+                await channel.send(f'{member} new rep is {person.rep}')
     else:
+        for person in people:
+            if person.id == member.id:
+                person -= person.change_rep(number)
         await channel.send(f'{member} loses {number} rep because {reason}.')
 @rep.error
 async def rep_error(ctx, error):
