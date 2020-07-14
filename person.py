@@ -18,4 +18,4 @@ class Person:
         return self.id
 
     def change_rep(self, rep=0):
-        self.rep = rep
+        self.rep += rep

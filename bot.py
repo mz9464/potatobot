@@ -20,9 +20,9 @@ async def on_ready():
     global people
     people = []
     print('Hello, world.')
-    x = list(client.get_all_members())
+    x = client.get_all_members()
     for members in x:
-        people.append(person.Person(str(members.name), str(members.id), 0))
+        people.append(person.Person(members.name, members.id, 0))
 
 """
 Sends a welcome message to the server when a member joins and 
@@ -34,7 +34,7 @@ async def on_member_join(member):
     print(f'Welcome {member}, the Potato Lord does not hate you.')
     channel = client.get_channel(id=701270246496927797)
     await channel.send(f'Welcome {member.display_name}, the Potato Lord does not hate you.')
-    people.append(person.Person(str(member.name), str(member.id), 0))
+    people.append(person.Person(member.name, member.id, 0))
     print(member.display_name, " has been added")
 
 """
@@ -64,12 +64,15 @@ async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'
     channel = client.get_channel(id=729546471757840454)
     if (number >= 0):
         print(people.__len__())
-        people.index(member)
         for person in people: #need to fix TODO
             if person.id == member.id:
-                person += person.change_rep(number)
+                person.change_rep(number)
                 await channel.send(f'{member} gains {number} rep because {reason}.')
                 await channel.send(f'{member} new rep is {person.rep}')
+                break
+            #else:
+            #    await channel.send("error")
+        await channel.send(f'end of loop')
     else:
         for person in people:
             if person.id == member.id:
