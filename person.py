@@ -17,5 +17,8 @@ class Person:
     def get_id(self):
         return self.id
 
+    def get_rep(self):
+        return self.rep
+
     def change_rep(self, rep=0):
         self.rep += rep
