@@ -81,17 +81,30 @@ async def rep_error(ctx, error):
     if isinstance(error, commands.MissingRole):
         await ctx.send('Lmao, only the dictator can use this command, scrub.')
 
-async def byRep(e):
-    return person.getRep(e)
+def byRep(person):
+    return person.get_rep()
 
 @client.command()
 async def leaderboard(ctx):
     channel = client.get_channel(id=729546471757840454)
-    people.sort(key=byRep) #todo this line probably wrong
-    counter = 0
+    people.sort(reverse=True, key=byRep)
+    counter = 1
+    await channel.send(f'Good job')
     for person in people:
-        await channel.send(f'{counter} {person.display_name} has {person.rep} rep')
+        await channel.send(f'{counter} {person.name} has {person.rep} rep')
         counter += 1
-        if counter == 1:
+        if counter == 6:
+            break
+
+@client.command()
+async def shameboard(ctx):
+    channel = client.get_channel(id=729546471757840454)
+    people.sort(reverse=False, key=byRep)
+    counter = 1
+    await channel.send(f'Leaderboard of shame')
+    for person in people:
+        await channel.send(f'{counter} {person.name} has {person.rep} rep')
+        counter += 1
+        if counter == 6:
             break
 client.run(config.token)
