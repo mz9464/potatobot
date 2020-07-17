@@ -47,7 +47,8 @@ async def on_member_remove(member):
     print(f'{member}, begone thot.')
     channel = client.get_channel(id=701270246496927797)
     await channel.send(f'{member.display_name}, begone thot.')
-    #people.remove(member) TODO probably need to change this
+    # people.remove(member)
+    # TODO need to finish this
 
 """
 @client.command(aliases=['read'])
@@ -58,36 +59,56 @@ async def readme(ctx):
     await ctx.send(f'{random.choice(responses)}')
 """
 
+
+"""
+Adds/removes reputation to a discord member
+:param member: the discord member
+:param number: the amount of reputation added/removed
+:param reason: the reason why the reputation changed 
+"""
 @client.command()
 @commands.has_role('server god')
-async def rep(ctx, member : discord.Member, number=0, *, reason='i feel like it'):
+async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it'):
     channel = client.get_channel(id=729546471757840454)
-    if (number >= 0):
+    if (number >= 0):   #adds reputation
         for person in people:
             if person.id == member.id:
                 person.change_rep(number)
                 await channel.send(f'{member.display_name} gains {number} rep because {reason}.')
                 await channel.send(f'{member.display_name} new rep is {person.rep}')
                 break
-    else:
+    else:              #removes reputation
         for person in people:
             if person.id == member.id:
                 person.change_rep(number)
                 await channel.send(f'{member} loses {number} rep because {reason}.')
                 await channel.send(f'{member.display_name} new rep is {person.rep}')
                 break
+
+"""
+Sends an error message if a member who does not have the correct
+role tries to use the .rep command
+"""
 @rep.error
 async def rep_error(ctx, error):
     if isinstance(error, commands.MissingRole):
         await ctx.send('Lmao, only the dictator can use this command, scrub.')
 
-def byRep(person):
+"""
+Returns the reputation of a given Discord member
+:param person: the discord member
+:return: the reputation value
+"""
+def by_rep(person):
     return person.get_rep()
 
+"""
+Displays the top 5 people in the server with the most reputation
+"""
 @client.command()
 async def leaderboard(ctx):
     channel = client.get_channel(id=729546471757840454)
-    people.sort(reverse=True, key=byRep)
+    people.sort(reverse=True, key=by_rep)
     counter = 1
     await channel.send(f'Good job')
     for person in people:
@@ -96,6 +117,9 @@ async def leaderboard(ctx):
         if counter == 6:
             break
 
+"""
+Displays the top 5 people in the server with the least amount of reputation
+"""
 @client.command()
 async def shameboard(ctx):
     channel = client.get_channel(id=729546471757840454)
@@ -107,4 +131,5 @@ async def shameboard(ctx):
         counter += 1
         if counter == 6:
             break
+
 client.run(config.token)
