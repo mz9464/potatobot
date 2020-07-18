@@ -51,14 +51,15 @@ async def on_member_remove(member):
     # TODO need to finish this
 
 """
-@client.command(aliases=['read'])
-async def readme(ctx):
-    responses = ['This bot was created to help run the dictatorship',
-                 'Hail the Potato Lord',
-                 'idk what you expected as a response']
-    await ctx.send(f'{random.choice(responses)}')
+Sends an info message of the server, introducing the bot
+and listing its commands
 """
-
+@client.command()
+async def info(ctx):
+    await ctx.send(f'Hello, I am Potato Bot and my job is to help run the dictatorship of this server\n\n'
+                   'COMMANDS \n .rep [@member] [value] [reason] : changes the rep of a member\n'
+                   '.leaderboard : displays the top 5 members with the most rep \n'
+                   '.shameboard : displays the top 5 members with the least amount of rep')
 
 """
 Adds/removes reputation to a discord member
@@ -123,7 +124,7 @@ Displays the top 5 people in the server with the least amount of reputation
 @client.command()
 async def shameboard(ctx):
     channel = client.get_channel(id=729546471757840454)
-    people.sort(reverse=False, key=byRep)
+    people.sort(reverse=False, key=by_rep)
     counter = 1
     await channel.send(f'Leaderboard of shame')
     for person in people:
