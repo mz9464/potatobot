@@ -6,6 +6,7 @@ description: bot to keep track of members' reputation in a Discord Server
 
 import discord
 import person
+import botdata
 from discord.ext import commands
 import config
 
@@ -23,6 +24,9 @@ async def on_ready():
     x = client.get_all_members()
     for members in x:
         people.append(person.Person(members.name, members.id, 0))
+    #botdata.load_data(people)
+    activity = discord.Game(name='.info | potatobot')
+    await client.change_presence(activity=activity)
 
 """
 Sends a welcome message to the server when a member joins and 
