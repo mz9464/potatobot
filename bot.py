@@ -120,11 +120,14 @@ async def leaderboard(ctx):
     people.sort(reverse=True, key=by_rep)
     counter = 1
     await channel.send(f'Good job')
+    msg = ''
     for person in people:
-        await channel.send(f'{counter} {person.name} has {person.rep} rep')
+        msg += f'{counter} {person.name} has {person.rep} rep \n'
         counter += 1
-        if counter == 6:
+        if counter == 5:
+            msg += f'{counter} {person.name} has {person.rep} rep'
             break
+    await channel.send(msg)
 
 """
 Displays the top 5 people in the server with the least amount of reputation
@@ -135,10 +138,13 @@ async def shameboard(ctx):
     people.sort(reverse=False, key=by_rep)
     counter = 1
     await channel.send(f'Leaderboard of shame')
+    msg = ''
     for person in people:
-        await channel.send(f'{counter} {person.name} has {person.rep} rep')
+        msg += f'{counter} {person.name} has {person.rep} rep \n'
         counter += 1
-        if counter == 6:
+        if counter == 5:
+            msg += f'{counter} {person.name} has {person.rep} rep'
             break
+    await channel.send(msg)
 
 client.run(config.token)
