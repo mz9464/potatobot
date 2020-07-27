@@ -25,8 +25,6 @@ async def on_ready():
     for members in x:
         people.append(person.Person(members.name, members.id, 0))
     botdata.load_data(people)
-    channel = client.get_channel(id=729546471757840454)
-    await channel.send('reading file')
     activity = discord.Game(name='.info | potatobot')
     await client.change_presence(activity=activity)
 
@@ -74,7 +72,7 @@ Adds/removes reputation to a discord member
 :param reason: the reason why the reputation changed 
 """
 @client.command()
-@commands.has_role('server god')
+@commands.has_role('bot powers')
 async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it'):
     channel = client.get_channel(id=729546471757840454)
     if (number >= 0):   #adds reputation
@@ -92,6 +90,8 @@ async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it')
                 person.change_rep(number)
                 await channel.send(f'{member} loses {number} rep because {reason}.')
                 await channel.send(f'{member.display_name} new rep is {person.rep}')
+                botdata.save_data(people)
+                await channel.send('file updated')
                 break
 
 """
@@ -101,7 +101,7 @@ role tries to use the .rep command
 @rep.error
 async def rep_error(ctx, error):
     if isinstance(error, commands.MissingRole):
-        await ctx.send('Lmao, only the dictator can use this command, scrub.')
+        await ctx.send('Lmao, only people with bot powers can use this command, scrub.')
 
 """
 Returns the reputation of a given Discord member
@@ -124,8 +124,7 @@ async def leaderboard(ctx):
     for person in people:
         msg += f'{counter} {person.name} has {person.rep} rep \n'
         counter += 1
-        if counter == 5:
-            msg += f'{counter} {person.name} has {person.rep} rep'
+        if counter == 6:
             break
     await channel.send(msg)
 
@@ -142,8 +141,7 @@ async def shameboard(ctx):
     for person in people:
         msg += f'{counter} {person.name} has {person.rep} rep \n'
         counter += 1
-        if counter == 5:
-            msg += f'{counter} {person.name} has {person.rep} rep'
+        if counter == 6:
             break
     await channel.send(msg)
 
