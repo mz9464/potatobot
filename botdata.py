@@ -6,9 +6,10 @@ def load_data(people):
 
         for person in people:
             print("testing person " + str(person.id))
-            if person.id in data:
+            idstr = str(person.id)
+            if idstr in data:
                 print('match')
-                person.rep = data[person.id]
+                person.rep = data[idstr]
             else:
                 print('no match')
 
