@@ -24,7 +24,9 @@ async def on_ready():
     x = client.get_all_members()
     for members in x:
         people.append(person.Person(members.name, members.id, 0))
-    #botdata.load_data(people)
+    botdata.load_data(people)
+    channel = client.get_channel(id=729546471757840454)
+    await channel.send('reading file')
     activity = discord.Game(name='.info | potatobot')
     await client.change_presence(activity=activity)
 
@@ -81,6 +83,8 @@ async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it')
                 person.change_rep(number)
                 await channel.send(f'{member.display_name} gains {number} rep because {reason}.')
                 await channel.send(f'{member.display_name} new rep is {person.rep}')
+                botdata.save_data(people)
+                await channel.send('file updated')
                 break
     else:              #removes reputation
         for person in people:

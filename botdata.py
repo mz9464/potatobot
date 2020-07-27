@@ -5,8 +5,12 @@ def load_data(people):
         data = json.load(f)
 
         for person in people:
+            print("testing person " + str(person.id))
             if person.id in data:
+                print('match')
                 person.rep = data[person.id]
+            else:
+                print('no match')
 
 def save_data(people):
     out = {}
