@@ -74,7 +74,7 @@ Adds/removes reputation to a discord member
 @client.command()
 @commands.has_role('bot powers')
 async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it'):
-    channel = client.get_channel(id=729546471757840454)
+    channel = client.get_channel(id=729445999185231934)
     if (number >= 0):   #adds reputation
         for person in people:
             if person.id == member.id:
@@ -82,7 +82,6 @@ async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it')
                 await channel.send(f'{member.display_name} gains {number} rep because {reason}.')
                 await channel.send(f'{member.display_name} new rep is {person.rep}')
                 botdata.save_data(people)
-                await channel.send('file updated')
                 break
     else:              #removes reputation
         for person in people:
@@ -91,7 +90,6 @@ async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it')
                 await channel.send(f'{member} loses {number} rep because {reason}.')
                 await channel.send(f'{member.display_name} new rep is {person.rep}')
                 botdata.save_data(people)
-                await channel.send('file updated')
                 break
 
 """
@@ -109,14 +107,14 @@ Returns the reputation of a given Discord member
 :return: the reputation value
 """
 def by_rep(person):
-    return person.get_rep()
+    return person.rep
 
 """
 Displays the top 5 people in the server with the most reputation
 """
 @client.command()
 async def leaderboard(ctx):
-    channel = client.get_channel(id=729546471757840454)
+    channel = client.get_channel(id=729445999185231934)
     people.sort(reverse=True, key=by_rep)
     counter = 1
     await channel.send(f'Good job')
@@ -133,7 +131,7 @@ Displays the top 5 people in the server with the least amount of reputation
 """
 @client.command()
 async def shameboard(ctx):
-    channel = client.get_channel(id=729546471757840454)
+    channel = client.get_channel(id=729445999185231934)
     people.sort(reverse=False, key=by_rep)
     counter = 1
     await channel.send(f'Leaderboard of shame')
