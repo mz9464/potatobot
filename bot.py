@@ -75,21 +75,20 @@ Adds/removes reputation to a discord member
 @client.command()
 @commands.has_role('bot powers')
 async def rep(ctx, member: discord.Member, number=0, *, reason='i feel like it'):
-    channel = client.get_channel(id=729445999185231934)
     if (number >= 0):   #adds reputation
         for person in people:
             if person.id == member.id:
                 person.change_rep(number)
-                await channel.send(f'{member.display_name} gains {number} rep because {reason}.')
-                await channel.send(f'{member.display_name} new rep is {person.rep}')
+                await ctx.send(f'{member.display_name} gains {number} rep because {reason}.')
+                await ctx.send(f'{member.display_name} new rep is {person.rep}')
                 botdata.save_data(people)
                 break
     else:              #removes reputation
         for person in people:
             if person.id == member.id:
                 person.change_rep(number)
-                await channel.send(f'{member} loses {number} rep because {reason}.')
-                await channel.send(f'{member.display_name} new rep is {person.rep}')
+                await ctx.send(f'{member} loses {number} rep because {reason}.')
+                await ctx.send(f'{member.display_name} new rep is {person.rep}')
                 botdata.save_data(people)
                 break
 
@@ -115,34 +114,32 @@ Displays the top 5 people in the server with the most reputation
 """
 @client.command()
 async def leaderboard(ctx):
-    channel = client.get_channel(id=729445999185231934)
     people.sort(reverse=True, key=by_rep)
     counter = 1
-    await channel.send(f'Good job')
+    await ctx.send(f'Good job')
     msg = ''
     for person in people:
         msg += f'{counter} {person.name} has {person.rep} rep \n'
         counter += 1
         if counter == 6:
             break
-    await channel.send(msg)
+    await ctx.send(msg)
 
 """
 Displays the top 5 people in the server with the least amount of reputation
 """
 @client.command()
 async def shameboard(ctx):
-    channel = client.get_channel(id=729445999185231934)
     people.sort(reverse=False, key=by_rep)
     counter = 1
-    await channel.send(f'Leaderboard of shame')
+    await ctx.send(f'Leaderboard of shame')
     msg = ''
     for person in people:
         msg += f'{counter} {person.name} has {person.rep} rep \n'
         counter += 1
         if counter == 6:
             break
-    await channel.send(msg)
+    await ctx.send(msg)
 
 
 """
@@ -151,7 +148,6 @@ Displays the reputation of a single member
 """
 @client.command()
 async def checkRep(ctx, member: discord.Member = None):
-    channel = client.get_channel(id=729546471757840454)
     rep = 0
     if (member == None):
         member = ctx.author
@@ -163,6 +159,6 @@ async def checkRep(ctx, member: discord.Member = None):
     embed = discord.Embed(title=member.display_name + "'s Reputation",
             description=member.display_name + " has " + str(rep) + " reputation")
     embed.set_thumbnail(url=f"{member.avatar_url}")
-    await channel.send(embed=embed)
+    await ctx.send(embed=embed)
 
 client.run(config.token)
