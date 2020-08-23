@@ -63,7 +63,8 @@ async def info(ctx):
     await ctx.send(f'Hello, I am Potato Bot and my job is to help run the dictatorship of this server\n\n'
                    'COMMANDS \n .rep [@member] [value] [reason] : changes the rep of a member\n'
                    '.leaderboard : displays the top 5 members with the most rep \n'
-                   '.shameboard : displays the top 5 members with the least amount of rep')
+                   '.shameboard : displays the top 5 members with the least amount of rep \n'
+                   '.checkRep : displays the reputation of a single member \n')
 
 """
 Adds/removes reputation to a discord member
@@ -142,5 +143,26 @@ async def shameboard(ctx):
         if counter == 6:
             break
     await channel.send(msg)
+
+
+"""
+Displays the reputation of a single member
+:param member: the discord member
+"""
+@client.command()
+async def checkRep(ctx, member: discord.Member = None):
+    channel = client.get_channel(id=729546471757840454)
+    rep = 0
+    if (member == None):
+        member = ctx.author
+    for person in people:
+        if person.id == member.id:
+            rep = person.rep
+            break
+
+    embed = discord.Embed(title=member.display_name + "'s Reputation",
+            description=member.display_name + " has " + str(rep) + " reputation")
+    embed.set_thumbnail(url=f"{member.avatar_url}")
+    await channel.send(embed=embed)
 
 client.run(config.token)
