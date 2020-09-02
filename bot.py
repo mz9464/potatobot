@@ -20,6 +20,7 @@ of members with the default value of reputation when the bot is online
 async def on_ready():
     global people
     people = []
+    #client.remove_command("help")
     print('Hello, world.')
     x = client.get_all_members()
     for members in x:
@@ -60,11 +61,15 @@ and listing its commands
 """
 @client.command()
 async def info(ctx):
-    await ctx.send(f'Hello, I am Potato Bot and my job is to help run the dictatorship of this server\n\n'
-                   'COMMANDS \n .rep [@member] [value] [reason] : changes the rep of a member\n'
-                   '.leaderboard : displays the top 5 members with the most rep \n'
-                   '.shameboard : displays the top 5 members with the least amount of rep \n'
-                   '.checkRep : displays the reputation of a single member \n')
+    embed = discord.Embed(title="Potato Bot",
+            description=(f'Hello! I am Potato Bot and my job is to help run the dictatorship of this server\n\n'
+                'COMMANDS \n .rep [@member] [value] [reason] : changes the rep of a member\n'
+                '.leaderboard : displays the top 5 members with the most rep \n'
+                '.shameboard : displays the top 5 members with the least amount of rep \n'
+                '.checkRep : displays the reputation of a single member \n'),
+            color=ctx.author.color)
+    embed.set_thumbnail(url=ctx.guild.me.avatar_url)
+    await ctx.send(embed=embed)
 
 """
 Adds/removes reputation to a discord member
