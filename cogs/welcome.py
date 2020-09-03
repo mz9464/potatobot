@@ -1,7 +1,18 @@
 import discord
 import person
 import botdata
-import config.client as client
+from discord.ext import commands
+import config as c
+
+client = commands.Bot(command_prefix='.')
+
+class Welcome(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+
+
+def setup(client):
+    client.add_cog(Welcome(client))
 
 """ 
 Sends a message to the terminal and creates a list 
@@ -29,7 +40,7 @@ async def on_member_join(member):
     print(f'Welcome {member}, the Potato Lord does not hate you.')
     channel = client.get_channel(id=701270246496927797)
     await channel.send(f'Welcome {member.display_name}, the Potato Lord does not hate you.')
-    people.append(person.Person(member.name, member.id, 0))
+    c.people.append(person.Person(member.name, member.id, 0))
     print(member.display_name, " has been added")
 
 """
