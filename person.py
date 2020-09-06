@@ -14,3 +14,6 @@ class Person:
     """ Changes a Person's reputation by a certain amount """
     def change_rep(self, rep=0):
         self.rep += rep
+
+    def get_id(self):
+        return self.id

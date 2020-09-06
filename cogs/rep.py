@@ -21,7 +21,7 @@ class Rep(commands.Cog):
             for person in c.people:
                 if person.id == member.id:
                     person.change_rep(number)
-                    await ctx.send(f'{member.display_name} gains {number} rep because {reason}.')
+                    await ctx.send(f'**{member.display_name} gains {number} rep.** \nReason: {reason}.')
                     await ctx.send(f'{member.display_name} new rep is {person.rep}')
                     botdata.save_data(c.people)
                     break
@@ -29,7 +29,7 @@ class Rep(commands.Cog):
             for person in c.people:
                 if person.id == member.id:
                     person.change_rep(number)
-                    await ctx.send(f'{member} loses {number} rep because {reason}.')
+                    await ctx.send(f'**{member.display_name} loses {number} rep.** \nReason: {reason}.')
                     await ctx.send(f'{member.display_name} new rep is {person.rep}')
                     botdata.save_data(c.people)
                     break
@@ -61,14 +61,26 @@ class Rep(commands.Cog):
     async def leaderboard(self, ctx):
         c.people.sort(reverse=True, key=self.by_rep)
         counter = 1
-        await ctx.send(f'Good job')
         msg = ''
         for person in c.people:
-            msg += f'{counter} {person.name} has {person.rep} rep \n'
+            msg += f'{counter} {person.name} with {person.rep} rep \n'
             counter += 1
             if counter == 6:
                 break
-        await ctx.send(msg)
+
+        embed = discord.Embed(title="LEADERBOARD",
+                              description=(
+                                  f'**GOOD JOB TO**\n {msg}'),
+                              color=ctx.author.color)
+        for member in self.client.get_all_members():
+            print("loop?")
+            print(member.id)
+            print(str(c.people[0].get_id()))
+            if str(member.id) == str(c.people[0].get_id()):
+                embed.set_thumbnail(url=f"{member.avatar_url}")
+                print("HELLO?")
+                break
+        await ctx.send(embed=embed)
 
     """
     Displays the top 5 people in the server with the least amount of reputation
