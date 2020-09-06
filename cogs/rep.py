@@ -3,8 +3,6 @@ import botdata
 from discord.ext import commands
 import config as c
 
-client = commands.Bot(command_prefix='.')
-
 class Rep(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -16,7 +14,7 @@ class Rep(commands.Cog):
     :param reason: the reason why the reputation changed 
     """
 
-    @client.command()
+    @commands.command()
     @commands.has_role('bot powers')
     async def rep(self, ctx, member: discord.Member, number=0, *, reason='i feel like it'):
         if (number >= 0):  # adds reputation
@@ -59,7 +57,7 @@ class Rep(commands.Cog):
     Displays the top 5 people in the server with the most reputation
     """
 
-    @client.command()
+    @commands.command()
     async def leaderboard(self, ctx):
         c.people.sort(reverse=True, key=self.by_rep)
         counter = 1
@@ -77,7 +75,7 @@ class Rep(commands.Cog):
     Displays the top 5 people in the server with the least amount of reputation
     """
 
-    @client.command()
+    @commands.command()
     async def shameboard(self, ctx):
         c.people.sort(reverse=False, key=self.by_rep)
         counter = 1
@@ -95,7 +93,7 @@ class Rep(commands.Cog):
     :param member: the discord member
     """
 
-    @client.command()
+    @commands.command()
     async def checkRep(self, ctx, member: discord.Member = None):
         rep = 0
         if (member == None):
