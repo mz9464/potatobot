@@ -63,7 +63,6 @@ class Rep(commands.Cog):
         counter = 1
         await ctx.send(f'Good job')
         msg = ''
-        await ctx.send(len(c.people))
         for person in c.people:
             msg += f'{counter} {person.name} has {person.rep} rep \n'
             counter += 1
