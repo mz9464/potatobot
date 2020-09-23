@@ -21,16 +21,24 @@ class Rep(commands.Cog):
             for person in c.people:
                 if person.id == member.id:
                     person.change_rep(number)
-                    await ctx.send(f'**{member.display_name} gains {number} rep.** \nReason: {reason}.')
-                    await ctx.send(f'{member.display_name} new rep is {person.rep}')
+                    embed = discord.Embed(title=member.display_name + "'s Reputation",
+                                          description= f'**{member.display_name} gains {number} rep.** \n'
+                                                       f'Reason: {reason}. \n'
+                                                       f'{member.display_name} new rep is {person.rep}')
+                    embed.set_thumbnail(url=f"{member.avatar_url}")
+                    await ctx.send(embed=embed)
                     botdata.save_data(c.people)
                     break
         else:  # removes reputation
             for person in c.people:
                 if person.id == member.id:
                     person.change_rep(number)
-                    await ctx.send(f'**{member.display_name} loses {number} rep.** \nReason: {reason}.')
-                    await ctx.send(f'{member.display_name} new rep is {person.rep}')
+                    embed = discord.Embed(title=member.display_name + "'s Reputation",
+                                          description= f'**{member.display_name} loses {number} rep.** \n'
+                                                       f'Reason: {reason}. \n'
+                                                       f'{member.display_name} new rep is {person.rep}')
+                    embed.set_thumbnail(url=f"{member.avatar_url}")
+                    await ctx.send(embed=embed)
                     botdata.save_data(c.people)
                     break
 
@@ -63,22 +71,18 @@ class Rep(commands.Cog):
         counter = 1
         msg = ''
         for person in c.people:
+            if (person.get_rep() < 0 or counter == 6):
+                break
             msg += f'{counter} {person.name} with {person.rep} rep \n'
             counter += 1
-            if counter == 6:
-                break
 
         embed = discord.Embed(title="LEADERBOARD",
                               description=(
                                   f'**GOOD JOB TO**\n {msg}'),
                               color=ctx.author.color)
         for member in self.client.get_all_members():
-            print("loop?")
-            print(member.id)
-            print(str(c.people[0].get_id()))
             if str(member.id) == str(c.people[0].get_id()):
                 embed.set_thumbnail(url=f"{member.avatar_url}")
-                print("HELLO?")
                 break
         await ctx.send(embed=embed)
 
@@ -90,14 +94,22 @@ class Rep(commands.Cog):
     async def shameboard(self, ctx):
         c.people.sort(reverse=False, key=self.by_rep)
         counter = 1
-        await ctx.send(f'Leaderboard of shame')
         msg = ''
         for person in c.people:
-            msg += f'{counter} {person.name} has {person.rep} rep \n'
-            counter += 1
-            if counter == 6:
+            if (person.get_rep() > 0 or counter == 6):
                 break
-        await ctx.send(msg)
+            msg += f'{counter} {person.name} with {person.rep} rep \n'
+            counter += 1
+
+        embed = discord.Embed(title="LEADERBOARD OF SHAME",
+                              description=(
+                                  f'**GIT GUD**\n {msg}'),
+                              color=ctx.author.color)
+        for member in self.client.get_all_members():
+            if str(member.id) == str(c.people[0].get_id()):
+                embed.set_thumbnail(url=f"{member.avatar_url}")
+                break
+        await ctx.send(embed=embed)
 
     """
     Displays the reputation of a single member

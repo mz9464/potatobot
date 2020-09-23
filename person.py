@@ -15,5 +15,10 @@ class Person:
     def change_rep(self, rep=0):
         self.rep += rep
 
+    """ Returns a Person's id """
     def get_id(self):
         return self.id
+
+    """ Returns a Person's reputation """
+    def get_rep(self):
+        return self.rep
