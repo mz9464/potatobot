@@ -26,15 +26,16 @@ Deletes person's data from a JSON file
 :param people: a list of object type Person
 """
 def delete_member(member, people):
+    out = {}
     with open("data.json", "r") as f:
         data = json.load(f)
 
         idstr = str(member.id)
         for person in people:
-            if idstr == str(person.id):
-                people.pop(person.id, None) #TODO
+            if idstr != str(person.id):
+                out[person.id] = person.rep
     with open("data.json", "w") as f:
-        json.dump(data, f)
+        json.dump(out, f)
 
 """ 
 Saves bot data into a JSON file and stores reputation of people

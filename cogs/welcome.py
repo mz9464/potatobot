@@ -62,7 +62,6 @@ class Welcome(commands.Cog):
         if i <= len(c.people):
             c.people.pop(i)
         print(f'{member} has been removed.')
-        await channel.send(f'file has been updated')
 
     """
     Sends an info message of the server, introducing the bot
