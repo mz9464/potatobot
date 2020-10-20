@@ -18,7 +18,9 @@ class Welcome(commands.Cog):
         print('Hello, world.')
         await self.client.wait_until_ready()
         x = self.client.get_all_members()
-        for members in x:
+        guild = self.client.get_guild(751995614916509698)
+        botdata.select_file(751995614916509698)
+        for members in guild.members:
             c.people.append(person.Person(members.name, members.id, 0))
         botdata.load_data(c.people)
         activity = discord.Game(name='.help | potatobot')

@@ -4,13 +4,31 @@ author: Misty Zheng
 description: helper methods read and write bot data into a JSON file
 """
 import json
+
+"""global variable that holds the file name"""
+filename = "data.json";
+
+"""
+Changed the default filename to the appropriate file for the guild
+:param guid_id: the id of a specific guild, used in the filename
+"""
+def select_file(guild_id):
+    global filename
+    filename = (str(guild_id) + "data.json")
+    try:
+        with open(filename) as f:
+            print(filename + " selected")
+    except IOError:
+        f = open(filename, "x")
+
 """ 
 Loads bot data from a JSON file and changes a Person's reputation 
 :param people: a list of object type Person
 """
+
 def load_data(people):
     try:
-        with open("data.json") as f:
+        with open(filename) as f:
             data = json.load(f)
 
             for person in people:
@@ -27,14 +45,14 @@ Deletes person's data from a JSON file
 """
 def delete_member(member, people):
     out = {}
-    with open("data.json", "r") as f:
+    with open(filename, "r") as f:
         data = json.load(f)
 
         idstr = str(member.id)
         for person in people:
             if idstr != str(person.id):
                 out[person.id] = person.rep
-    with open("data.json", "w") as f:
+    with open(filename, "w") as f:
         json.dump(out, f)
 
 """ 
@@ -46,5 +64,5 @@ def save_data(people):
     for person in people:
         out[person.id] = person.rep
 
-    with open("data.json", "w") as f:
+    with open(filename, "w") as f:
         json.dump(out, f)
