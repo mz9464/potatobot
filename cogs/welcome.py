@@ -17,12 +17,14 @@ class Welcome(commands.Cog):
     async def on_ready(self):
         print('Hello, world.')
         await self.client.wait_until_ready()
+        #TODO need to work for all guilds
         x = self.client.get_all_members()
         guild = self.client.get_guild(751995614916509698)
         botdata.select_file(751995614916509698)
         for members in guild.members:
             c.people.append(person.Person(members.name, members.id, 0))
         botdata.load_data(c.people)
+
         activity = discord.Game(name='.help | potatobot')
         await self.client.change_presence(activity=activity)
 

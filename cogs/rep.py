@@ -2,6 +2,8 @@ import discord
 import botdata
 from discord.ext import commands
 import config as c
+from discord.utils import get
+import asyncio
 
 class Rep(commands.Cog):
     def __init__(self, client):
@@ -131,6 +133,24 @@ class Rep(commands.Cog):
         embed.set_thumbnail(url=f"{member.avatar_url}")
         await ctx.send(embed=embed)
 
+    """
+    Adds the 'censored' role to a member
+    :param member: the discord member
+    :param time: amount of time the player has the role
+    """
+    @commands.command(pass_context = True , aliases=['hornyjail', 'censor', 'bad'])
+    @commands.has_role('bot powers')
+    async def jail(self, ctx, member: discord.Member, time=60):
+        role = get(member.guild.roles, name = "censored")
+        await member.add_roles(role)
+        embed = discord.Embed(title="All hail the Potato Lord",
+                              description=f"{member.display_name} has been put in jail for {time} seconds.",
+                              color=ctx.author.color)
+        embed.set_thumbnail(url=f"{member.avatar_url}")
+        await ctx.send(embed=embed)
+        await asyncio.sleep(time)
+        await member.remove_roles(role)
+        await ctx.send(f"{member.display_name} has been released from jail.")
 
 def setup(client):
     client.add_cog(Rep(client))
