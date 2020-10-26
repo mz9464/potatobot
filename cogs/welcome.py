@@ -23,18 +23,9 @@ class Welcome(commands.Cog):
             server = self.client.get_guild(guild.id)
             for members in server.members:
                 people.append(person.Person(members.name, members.id, 0))
-                #print(members)
             c.Dict[guild.id] = people
-            #print(c.Dict[guild.id])
-            c.Dict[guild.id] = botdata.load_data(botdata.load_data(guild.id, people)) # need to fix this line
+            c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id]) # need to fix this line
         #TODO need to work for all guilds
-        """"
-        guild = self.client.get_guild(751995614916509698)
-        botdata.select_file(751995614916509698)
-        for members in guild.members:
-            c.people.append(person.Person(members.name, members.id, 0))
-        botdata.load_data(c.people)
-        """
         activity = discord.Game(name='.help | potatobot')
         await self.client.change_presence(activity=activity)
 
