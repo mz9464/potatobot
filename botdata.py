@@ -26,7 +26,8 @@ Loads bot data from a JSON file and changes a Person's reputation
 :param people: a list of object type Person
 """
 
-def load_data(people):
+def load_data(guild_id, people):
+    select_file(guild_id)
     try:
         with open(filename) as f:
             data = json.load(f)
@@ -43,7 +44,8 @@ Deletes person's data from a JSON file
 :param member: the member being deleted
 :param people: a list of object type Person
 """
-def delete_member(member, people):
+def delete_member(guild_id, member, people):
+    select_file(guild_id)
     out = {}
     with open(filename, "r") as f:
         data = json.load(f)
@@ -59,7 +61,8 @@ def delete_member(member, people):
 Saves bot data into a JSON file and stores reputation of people
 :param people: a list of object type Person
 """
-def save_data(people):
+def save_data(guild_id, people):
+    select_file(guild_id)
     out = {}
     for person in people:
         out[person.id] = person.rep
