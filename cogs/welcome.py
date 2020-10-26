@@ -77,9 +77,10 @@ class Welcome(commands.Cog):
         embed = discord.Embed(title="Potato Bot",
                               description=(
                                   f'Hello! I am Potato Bot and my job is to help run the dictatorship of this server\n\n'
-                                  '**COMMANDS** \n .rep [@member] [value] [reason] : changes the rep of a member\n'
-                                  '.leaderboard : displays the top 5 members with the most rep \n'
-                                  '.shameboard : displays the top 5 members with the least amount of rep \n'
+                                  '**RESERVED COMMANDS** \n .rep [@member] [value] [reason] : changes the rep of a member\n'
+                                  '.jail [@member] [duration] : puts server member in jail \n\n'
+                                  '**REGULAR COMMANDS** \n .leaderboard : displays the top 5 members with the most rep \n'
+                                  '.shameboard : displays the top 5 members with the least rep \n'
                                   '.checkRep : displays the reputation of a single member \n'),
                               color=ctx.author.color)
         embed.set_thumbnail(url=ctx.guild.me.avatar_url)
