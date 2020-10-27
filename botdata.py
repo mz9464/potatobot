@@ -20,6 +20,7 @@ def select_file(guild_id):
             print(filename + " selected")
     except IOError:
         f = open(filename, "x")
+        f.close(filename)
 
 """ 
 Loads bot data from a JSON file and changes a Person's reputation 
@@ -38,7 +39,7 @@ def load_data(guild_id, people):
                 idstr = str(person.id)
                 if idstr in data:
                     person.rep = data[idstr]
-    except:
+    finally:
         save_data(people)
 
 """ 

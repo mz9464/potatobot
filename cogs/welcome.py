@@ -20,11 +20,10 @@ class Welcome(commands.Cog):
         await self.client.wait_until_ready()
         async for guild in self.client.fetch_guilds(limit=150):
             people = []
-            server = self.client.get_guild(guild.id)
-            for members in server.members:
-                people.append(person.Person(members.name, members.id, 0))
+            async for member in guild.fetch_members(limit=150):
+                people.append(person.Person(member.name, member.id, 0))
             c.Dict[guild.id] = people
-            c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id]) # need to fix this line
+            c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id])
         #TODO need to work for all guilds
         activity = discord.Game(name='.help | potatobot')
         await self.client.change_presence(activity=activity)

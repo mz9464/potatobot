@@ -19,8 +19,11 @@ class Rep(commands.Cog):
     @commands.command()
     @commands.has_role('bot powers')
     async def rep(self, ctx, member: discord.Member, number=0, *, reason='i feel like it'):
+        guild = ctx.message.guild.id
+        botdata.select_file(guild)
+        #c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id])
         if (number >= 0):  # adds reputation
-            for person in c.people:
+            for person in c.Dict[guild.id]:
                 if person.id == member.id:
                     person.change_rep(number)
                     embed = discord.Embed(title=member.display_name + "'s Reputation",
@@ -29,10 +32,12 @@ class Rep(commands.Cog):
                                                        f'{member.display_name} new rep is {person.rep}')
                     embed.set_thumbnail(url=f"{member.avatar_url}")
                     await ctx.send(embed=embed)
-                    botdata.save_data(c.people)
+                    botdata.save_data(c.Dict[guild.id])
+                    print("Raaa")
                     break
+            print("hmm")
         else:  # removes reputation
-            for person in c.people:
+            for person in c.Dict[guild.id]:
                 if person.id == member.id:
                     person.change_rep(number)
                     embed = discord.Embed(title=member.display_name + "'s Reputation",
@@ -41,7 +46,7 @@ class Rep(commands.Cog):
                                                        f'{member.display_name} new rep is {person.rep}')
                     embed.set_thumbnail(url=f"{member.avatar_url}")
                     await ctx.send(embed=embed)
-                    botdata.save_data(c.people)
+                    botdata.save_data(c.Dict[guild.id])
                     break
 
     """
