@@ -19,11 +19,12 @@ class Rep(commands.Cog):
     @commands.command()
     @commands.has_role('bot powers')
     async def rep(self, ctx, member: discord.Member, number=0, *, reason='i feel like it'):
-        guild = ctx.message.guild.id
-        botdata.select_file(guild)
+        id = ctx.message.guild.id
+        #botdata.select_file(id)
         #c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id])
         if (number >= 0):  # adds reputation
-            for person in c.Dict[guild.id]:
+            print(len(c.Dict[id]))
+            for person in c.Dict[id]:
                 if person.id == member.id:
                     person.change_rep(number)
                     embed = discord.Embed(title=member.display_name + "'s Reputation",
@@ -32,12 +33,12 @@ class Rep(commands.Cog):
                                                        f'{member.display_name} new rep is {person.rep}')
                     embed.set_thumbnail(url=f"{member.avatar_url}")
                     await ctx.send(embed=embed)
-                    botdata.save_data(c.Dict[guild.id])
+                    botdata.save_data(c.Dict[id])
                     print("Raaa")
                     break
             print("hmm")
         else:  # removes reputation
-            for person in c.Dict[guild.id]:
+            for person in c.Dict[id]:
                 if person.id == member.id:
                     person.change_rep(number)
                     embed = discord.Embed(title=member.display_name + "'s Reputation",
@@ -46,7 +47,7 @@ class Rep(commands.Cog):
                                                        f'{member.display_name} new rep is {person.rep}')
                     embed.set_thumbnail(url=f"{member.avatar_url}")
                     await ctx.send(embed=embed)
-                    botdata.save_data(c.Dict[guild.id])
+                    botdata.save_data(c.Dict[id])
                     break
 
     """
@@ -74,10 +75,14 @@ class Rep(commands.Cog):
 
     @commands.command()
     async def leaderboard(self, ctx):
-        c.people.sort(reverse=True, key=self.by_rep)
+        id = ctx.message.guild.id
+        #botdata.select_file(id)
+        #c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id])
+        print(id)
+        c.Dict[id].sort(reverse=True, key=self.by_rep)
         counter = 1
         msg = ''
-        for person in c.people:
+        for person in c.Dict[id]:
             if (person.get_rep() < 0 or counter == 6):
                 break
             msg += f'{counter} {person.name} with {person.rep} rep \n'
@@ -88,7 +93,7 @@ class Rep(commands.Cog):
                                   f'**GOOD JOB TO**\n {msg}'),
                               color=ctx.author.color)
         for member in self.client.get_all_members():
-            if str(member.id) == str(c.people[0].get_id()):
+            if str(member.id) == str(c.Dict[id][0].get_id()):
                 embed.set_thumbnail(url=f"{member.avatar_url}")
                 break
         await ctx.send(embed=embed)

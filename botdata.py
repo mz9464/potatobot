@@ -26,11 +26,9 @@ def select_file(guild_id):
 Loads bot data from a JSON file and changes a Person's reputation 
 :param people: a list of object type Person
 """
-
+#TODO fix
 def load_data(guild_id, people):
     select_file(guild_id)
-    for ppl in people:
-        print(ppl.name)
     try:
         with open(filename) as f:
             data = json.load(f)
