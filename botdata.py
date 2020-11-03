@@ -24,6 +24,7 @@ def select_file(guild_id):
 
 """ 
 Loads bot data from a JSON file and changes a Person's reputation 
+:param guild_id: id of a guild
 :param people: a list of object type Person
 """
 def load_data(guild_id, people):
@@ -42,6 +43,7 @@ def load_data(guild_id, people):
 
 """ 
 Deletes person's data from a JSON file
+:param guild_id: id of a guild
 :param member: the member being deleted
 :param people: a list of object type Person
 """
