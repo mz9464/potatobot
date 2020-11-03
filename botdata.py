@@ -31,7 +31,6 @@ def load_data(guild_id, people):
     try:
         with open(filename) as f:
             data = json.load(f)
-            print(data)
 
             for person in people:
                 idstr = str(person.id)
