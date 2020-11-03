@@ -15,21 +15,15 @@ class Welcome(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-
         print('Hello, world.')
         await self.client.wait_until_ready()
         async for guild in self.client.fetch_guilds(limit=150):
             people = []
             async for member in guild.fetch_members(limit=150):
                 people.append(person.Person(member.name, member.id, 0))
-            c.Dict[guild.id] = people
-            #c.Dict[guild.id] = botdata.load_data(guild.id, c.Dict[guild.id])
-        #TODO need to work for all guilds
+            c.Dict[guild.id] = botdata.load_data(guild.id, people)
         activity = discord.Game(name='.help | potatobot')
         await self.client.change_presence(activity=activity)
-        print("ready!")
-        print(c.Dict[701270246496927794])
-        print(c.Dict[751995614916509698])
 
     """
     Sends a welcome message to the server when a member joins and 
