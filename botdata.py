@@ -4,6 +4,7 @@ author: Misty Zheng
 description: helper methods read and write bot data into a JSON file
 """
 import json
+import os
 
 """global variable that holds the file name"""
 filename = "data.json";
@@ -15,12 +16,14 @@ Changed the default filename to the appropriate file for the guild
 def select_file(guild_id):
     global filename
     filename = (str(guild_id) + "data.json")
-    try:
-        with open(filename) as f:
-            print(filename + " selected")
-    except IOError:
-        f = open(filename, "x")
-        f.close(filename)
+    open(filename, 'a').close()
+    if os.path.exists(filename):
+        append_write = 'a'  # append if already exists
+    else:
+        append_write = 'x'  # make a new file if not
+
+    f = open(filename, append_write)
+    f.close()
 
 """ 
 Loads bot data from a JSON file and changes a Person's reputation 
@@ -28,6 +31,7 @@ Loads bot data from a JSON file and changes a Person's reputation
 :param people: a list of object type Person
 """
 def load_data(guild_id, people):
+    print(guild_id)
     select_file(guild_id)
     try:
         with open(filename) as f:
